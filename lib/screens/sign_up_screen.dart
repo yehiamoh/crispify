@@ -4,30 +4,55 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class SignUpScreen extends StatelessWidget {
+class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
 
   @override
+  State<SignUpScreen> createState() => _SignUpScreenState();
+}
+
+class _SignUpScreenState extends State<SignUpScreen> {
+  TextEditingController userNameController = TextEditingController();
+  TextEditingController nameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  TextEditingController confirmPasswordController = TextEditingController();
+  @override
   Widget build(BuildContext context) {
-    return  SafeArea(
-      child: Scaffold (
-       
+    return SafeArea(
+      child: Scaffold(
         body: Stack(
           children: [
-            SizedBox(child: Image.asset("assets/images/LogIn.jpg", fit: BoxFit.cover,),width: MediaQuery.of(context).size.width,),
+            SizedBox(
+              width: MediaQuery.of(context).size.width,
+              child: Image.asset(
+                "assets/images/LogIn.jpg",
+                fit: BoxFit.cover,
+              ),
+            ),
             SingleChildScrollView(
               child: Column(
-                mainAxisAlignment:MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  SizedBox(height: 17.h,),
-                  Row(
+                  SizedBox(
+                    height: 17.h,
+                  ),
+                  const Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const IconAndNameVertical(),
+                       IconAndNameVertical(),
                     ],
                   ),
                   SizedBox(height: 95.h),
-                  CustomSignUpContainerUi(onPressed: (){},buttonActionName: "Create account",)
+                  CustomSignUpContainerUi(
+                    onPressed: () {},
+                    buttonActionName: "Create account",
+                    emailController: emailController,
+                    nameController: nameController,
+                    userNameController: userNameController,
+                    passwordController: passwordController,
+                    confirmPasswordController: confirmPasswordController,
+                  )
                 ],
               ),
             )

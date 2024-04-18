@@ -3,15 +3,23 @@ import 'package:crispify/widgets/icon_and_name.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-class LogInScreen extends StatelessWidget {
+class LogInScreen extends StatefulWidget {
   const LogInScreen({super.key});
+
+  @override
+  State<LogInScreen> createState() => _LogInScreenState();
+}
+
+class _LogInScreenState extends State<LogInScreen> {
+  TextEditingController emailController=TextEditingController();
+  TextEditingController passwordController=TextEditingController();
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold (
         body: Stack(
           children: [
-            SizedBox(child: Image.asset("assets/images/LogIn.jpg", fit: BoxFit.cover,),width: MediaQuery.of(context).size.width,),
+            SizedBox(child: Image.asset("assets/images/LogIn.jpg", fit: BoxFit.fill,),width: MediaQuery.of(context).size.width,),
             SingleChildScrollView(
               child: Column(
                 mainAxisAlignment:MainAxisAlignment.center,
@@ -24,7 +32,7 @@ class LogInScreen extends StatelessWidget {
                    ],
                  ),
                   SizedBox(height: 95.h),
-                  CustomLogInContainerUi(onPressed: (){},buttonActionName: "Login",),
+                  CustomLogInContainerUi(onPressed: (){},buttonActionName: "Login",emailController: emailController,passwordController: passwordController,),
                 ],
               ),
             )
