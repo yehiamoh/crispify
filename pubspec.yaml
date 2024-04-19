@@ -41,6 +41,7 @@ dependencies:
   flutter_screenutil: ^5.9.0
   #to get special fonts
   google_fonts: ^6.2.1
+  flutter_bloc: ^8.1.5
 
 
 dev_dependencies:

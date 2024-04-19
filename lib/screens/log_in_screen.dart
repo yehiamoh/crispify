@@ -1,44 +1,89 @@
+import 'package:crispify/cubits/login_cubit/login_cubit.dart';
+import 'package:crispify/models/log_in_model.dart';
+import 'package:crispify/screens/test.dart';
 import 'package:crispify/widgets/custom_login_container_ui.dart';
 import 'package:crispify/widgets/icon_and_name.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 class LogInScreen extends StatefulWidget {
   const LogInScreen({super.key});
-
   @override
   State<LogInScreen> createState() => _LogInScreenState();
 }
 
 class _LogInScreenState extends State<LogInScreen> {
-  TextEditingController emailController=TextEditingController();
-  TextEditingController passwordController=TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  bool _isLoading = false;
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold (
-        body: Stack(
-          children: [
-            SizedBox(child: Image.asset("assets/images/LogIn.jpg", fit: BoxFit.fill,),width: MediaQuery.of(context).size.width,),
-            SingleChildScrollView(
-              child: Column(
-                mainAxisAlignment:MainAxisAlignment.center,
-                children: [
-                  SizedBox(height: 17.h,),
-                 Row(
-                   mainAxisAlignment: MainAxisAlignment.center,
-                   children: [
-                     const IconAndNameVertical(),
-                   ],
-                 ),
-                  SizedBox(height: 95.h),
-                  CustomLogInContainerUi(onPressed: (){},buttonActionName: "Login",emailController: emailController,passwordController: passwordController,),
-                ],
+    return BlocListener<LoginCubit, LoginState>(
+        listener: (context, state) {
+          if (state is LoginFailed) {
+            //_isLoading = false;
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                content: Text(state.error!), backgroundColor: Colors.red));
+          } else if (state is LoginLoading) {
+           // _isLoading = true;
+            Scaffold(
+              body: Center(
+                child: CircularProgressIndicator(),
               ),
-            )
-          ],
-        ),
-      ),
-    );
+            );
+          } else if (state is LoginSuccess) {
+           // _isLoading = false;
+            Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute(builder: (_) => Test()), (route) => false);
+          }
+        },
+        child: SafeArea(
+          child: Scaffold(
+            body: Stack(
+              children: [
+                SizedBox(
+                  child: Image.asset(
+                    "assets/images/LogIn.jpg",
+                    fit: BoxFit.fill,
+                  ),
+                  width: MediaQuery.of(context).size.width,
+                ),
+                SingleChildScrollView(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        height: 17.h,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const IconAndNameVertical(),
+                        ],
+                      ),
+                      SizedBox(height: 95.h),
+                      CustomLogInContainerUi(
+                        onPressed: () {
+                          final loginModel = LogInModel(
+                            email: emailController.text,
+                            password: passwordController.text,
+                          );
+                          BlocProvider.of<LoginCubit>(context).submitLogin(loginModel);
+                        //  _isLoading = true;
+                        },
+                        buttonActionName: "Login",
+                        emailController: emailController,
+                        passwordController: passwordController,
+
+                      ),
+                    ],
+                  ),
+                )
+              ],
+            ),
+          ),
+        ));
   }
 }

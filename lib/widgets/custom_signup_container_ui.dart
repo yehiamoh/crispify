@@ -20,15 +20,12 @@ class CustomSignUpContainerUi extends StatefulWidget {
        this.emailController,
        this.passwordController,
        this.confirmPasswordController});
-
   @override
   State<CustomSignUpContainerUi> createState() =>
       _CustomSignUpContainerUiState();
 }
-
 class _CustomSignUpContainerUiState extends State<CustomSignUpContainerUi> {
   GlobalKey<FormState> signUpFromKey = GlobalKey<FormState>();
-
   @override
   Widget build(BuildContext context) {
     return Material(
