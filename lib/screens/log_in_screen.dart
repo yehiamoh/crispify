@@ -26,22 +26,10 @@ class _LogInScreenState extends State<LogInScreen> {
           if (state is LoginFailed) {
             //_isLoading = false;
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                content: Text(state.error!), backgroundColor: Colors.grey));
-          }
-         else if (state is LoginFailed2) {
-            //_isLoading = false;
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                 content: Text(state.error!), backgroundColor: Colors.red));
-          }
-          else if (state is LoginLoading) {
-           // _isLoading = true;
-             Scaffold(
-               body: Center(
-                child: CircularProgressIndicator(color: AppTheme().orangeColor,),
-              ),
-            );
+
           } else if (state is LoginSuccess) {
-           // _isLoading = false;
+            // _isLoading = false;
             Navigator.of(context).pushAndRemoveUntil(
                 MaterialPageRoute(builder: (_) => Test()), (route) => false);
           }
@@ -71,20 +59,32 @@ class _LogInScreenState extends State<LogInScreen> {
                         ],
                       ),
                       SizedBox(height: 95.h),
-                      CustomLogInContainerUi(
-                        onPressed: () {
-                          final loginModel = LogInModel(
-                            email: emailController.text,
-                            password: passwordController.text,
-                          );
-                          BlocProvider.of<LoginCubit>(context).submitLogin(loginModel);
-                        //  _isLoading = true;
-                        },
-                        buttonActionName: "Login",
-                        emailController: emailController,
-                        passwordController: passwordController,
+                      BlocBuilder<LoginCubit, LoginState>(
+                          builder: (context, state) {
+                        if (state is LoginLoading) {
+                          // _isLoading = true;
+                            return Center(
+                              child: CircularProgressIndicator(
+                                color: AppTheme().orangeColor,
+                              ),
+                            );
 
-                      ),
+                        }
+                        return CustomLogInContainerUi(
+                          onPressed: () {
+                            final loginModel = LogInModel(
+                              email: emailController.text,
+                              password: passwordController.text,
+                            );
+                            BlocProvider.of<LoginCubit>(context)
+                                .submitLogin(loginModel);
+                            //  _isLoading = true;
+                          },
+                          buttonActionName: "Login",
+                          emailController: emailController,
+                          passwordController: passwordController,
+                        );
+                      })
                     ],
                   ),
                 )

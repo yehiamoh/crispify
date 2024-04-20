@@ -12,9 +12,9 @@ class ResetPasswordCubit extends Cubit<ResetPasswordState> {
   void resetPassword(ResetPasswordModel resestPassword)async{
     emit(ResetPasswordLoading());
     try{
-      final respnose=await dio.post("https://fried-chicken-restaurant-backend-node-js.onrender.com/api/client/resetPassword",data: resestPassword.toJson());
+      final respnose=await dio.put("https://fried-chicken-restaurant-backend-node-js.onrender.com/api/client/resetPassword",data: resestPassword.toJson());
       if(respnose.statusCode==200){
-        emit(ResetPasswordLoading());
+        emit(ResetPasswordSuccess());
       }
       else{
         emit(ResetPasswordFailed("error"));

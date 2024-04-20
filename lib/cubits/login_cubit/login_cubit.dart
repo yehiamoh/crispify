@@ -21,11 +21,6 @@ class LoginCubit extends Cubit<LoginState> {
         print("the token is : "+data["token"]);
         emit(LoginSuccess(data["token"]));
       }
-      else if (response.statusCode == 404) {
-        final message =data["msg"] as String? ??"user not found";
-        print(message);
-        emit(LoginFailed2(message));
-      }
       else {
         // Handle unexpected status codes gracefully
         emit(LoginFailed(

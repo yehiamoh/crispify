@@ -32,13 +32,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
           //_isLoading = false;
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
               content: Text(state.error!), backgroundColor: Colors.red));
-        } else if (state is SignupLoading) {
-          // _isLoading = true;
-          Scaffold(
-            body: Center(
-              child: CircularProgressIndicator(color: AppTheme().orangeColor,),
-            ),
-          );
         }
 
       },
@@ -67,18 +60,27 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ],
                     ),
                     SizedBox(height: 95.h),
-                    CustomSignUpContainerUi(
-                      onPressed: () {
-                        final singUpModel=SignUpModel(name: nameController.text, username: userNameController.text, email: emailController.text, password: passwordController.text, confirmPassword: confirmPasswordController.text);
-                        BlocProvider.of<SignupCubit>(context).submitSignup(singUpModel);
-                      },
-                      buttonActionName: "Create account",
-                      emailController: emailController,
-                      nameController: nameController,
-                      userNameController: userNameController,
-                      passwordController: passwordController,
-                      confirmPasswordController: confirmPasswordController,
-                    )
+                    BlocBuilder<SignupCubit,SignupState>(builder:(context,state){
+                      if (state is SignupLoading) {
+                        // _isLoading = true;
+                          return Center(
+                            child: CircularProgressIndicator(color: AppTheme().orangeColor,),
+                        );
+                      }
+                     return CustomSignUpContainerUi(
+                        onPressed: () {
+                          final singUpModel=SignUpModel(name: nameController.text, username: userNameController.text, email: emailController.text, password: passwordController.text, confirmPassword: confirmPasswordController.text);
+                          BlocProvider.of<SignupCubit>(context).submitSignup(singUpModel);
+                        },
+                        buttonActionName: "Create account",
+                        emailController: emailController,
+                        nameController: nameController,
+                        userNameController: userNameController,
+                        passwordController: passwordController,
+                        confirmPasswordController: confirmPasswordController,
+                      );
+                    } )
+
                   ],
                 ),
               )

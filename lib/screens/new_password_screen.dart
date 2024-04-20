@@ -22,13 +22,6 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
       if(state is ResetPasswordSuccess){
         Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (_)=>WelcomeScreen()), (route) => false);
       }
-      else if(state is ResetPasswordLoading){
-        const Scaffold(
-          body: Center(
-            child: CircularProgressIndicator(),
-          ),
-        );
-      }
       else if(state is ResetPasswordFailed){
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             content: Text(state.error!), backgroundColor: Colors.red));
@@ -59,16 +52,24 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                     ],
                   ),
                   SizedBox(height: 95.h),
-                  CustomEmailAndPasswordContainerUi(
-                    isPasswordScreen: true,
-                    onPressed: (){
-                      final resetPasswordModel =ResetPasswordModel(password: newPasswordController.text, token: widget.token!);
-                      BlocProvider.of<ResetPasswordCubit>(context).resetPassword(resetPasswordModel);
-                    },
-                    buttonActionName: "submit",
-                    controller: newPasswordController,
-                    headerText: "Enter your New password",
-                  )
+                  BlocBuilder<ResetPasswordCubit,ResetPasswordState>(builder: (context,state){
+                    if (state is ResetPasswordLoading) {
+                      return  Center(
+                          child: CircularProgressIndicator(
+                            color: AppTheme().orangeColor,
+                          ));
+                    }
+                   return CustomEmailAndPasswordContainerUi(
+                      isPasswordScreen: true,
+                      onPressed: (){
+                        final resetPasswordModel =ResetPasswordModel(password: newPasswordController.text, token: widget.token!);
+                        BlocProvider.of<ResetPasswordCubit>(context).resetPassword(resetPasswordModel);
+                      },
+                      buttonActionName: "submit",
+                      controller: newPasswordController,
+                      headerText: "Enter your New password",
+                    );
+                  })
                 ],
               ),
             )

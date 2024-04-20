@@ -28,13 +28,6 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
         if(state is EmailOtpSuccess){
           Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (_)=>OTPScreen(email: emailController.text,)), (route) => false);
         }
-        else if(state is EmailOtpLoading){
-         const Scaffold(
-            body: Center(
-              child: CircularProgressIndicator(),
-            ),
-          );
-        }
        else if(state is EmailOtpFailed){
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
               content: Text(state.error!), backgroundColor: Colors.red));
@@ -65,16 +58,26 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
                       ],
                     ),
                     SizedBox(height: 95.h),
-                    CustomEmailAndPasswordContainerUi(
-                      isPasswordScreen: false,
-                      onPressed: () {
-                        final emailModel=EmailModel(email: emailController.text);
-                        BlocProvider.of<EmailOtpCubit>(context).emailOTP(emailModel);
-                      },
-                      buttonActionName: "submit",
-                      controller: emailController,
-                      headerText: "Enter your Email",
-                    )
+                 BlocBuilder<EmailOtpCubit,EmailOtpState>(builder: (context,state){
+                   if (state is EmailOtpLoading) {
+                     return  Center(
+                         child: CircularProgressIndicator(
+                           color: AppTheme().orangeColor,
+                         ));
+                   }
+
+                  return CustomEmailAndPasswordContainerUi(
+                   isPasswordScreen: false,
+                   onPressed: () {
+                     final emailModel=EmailModel(email: emailController.text);
+                     BlocProvider.of<EmailOtpCubit>(context).emailOTP(emailModel);
+                   },
+                   buttonActionName: "submit",
+                   controller: emailController,
+                   headerText: "Enter your Email",
+                 );
+  }
+                 )
                   ],
                 ),
               )

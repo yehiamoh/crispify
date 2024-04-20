@@ -34,13 +34,6 @@ class _OTPScreenState extends State<OTPScreen> {
           if(state is OtpSuccess){
             Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (_)=>NewPasswordScreen(token: state.token,)), (route) => false);
           }
-          else if(state is OtpLoading){
-            const Scaffold(
-              body: Center(
-                child: CircularProgressIndicator(),
-              ),
-            );
-          }
           else if(state is OtpFailed){
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                 content: Text(state.error!), backgroundColor: Colors.red));
@@ -71,14 +64,25 @@ class _OTPScreenState extends State<OTPScreen> {
                         ],
                       ),
                       SizedBox(height: 95.h),
-                      OTPCustomConatainerUI(
-                        onPressed: () {
-                          final otpModel=OtpModel(userotp: OTPController.text ,email: widget.email!);
-                          BlocProvider.of<OtpCubit>(context).OTPSubmition(otpModel);
-                        },
-                        buttonActionName: "submit",
-                        controller: OTPController,
-                      )
+                     BlocBuilder<OtpCubit,OtpState>(builder: (context,state) {
+                       if (state is OtpLoading) {
+                         return  Center(
+                             child: CircularProgressIndicator(
+                               color: AppTheme().orangeColor,
+                             ));
+                       }
+                       return OTPCustomConatainerUI(
+                         onPressed: () {
+                           final otpModel = OtpModel(
+                               userotp: OTPController.text,
+                               email: widget.email!);
+                           BlocProvider.of<OtpCubit>(context).OTPSubmition(
+                               otpModel);
+                         },
+                         buttonActionName: "submit",
+                         controller: OTPController,
+                       );
+                     })
                     ],
                   ),
                 )
