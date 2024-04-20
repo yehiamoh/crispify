@@ -1,6 +1,7 @@
 import 'package:crispify/cubits/login_cubit/login_cubit.dart';
 import 'package:crispify/models/log_in_model.dart';
 import 'package:crispify/screens/test.dart';
+import 'package:crispify/utils/themes.dart';
 import 'package:crispify/widgets/custom_login_container_ui.dart';
 import 'package:crispify/widgets/icon_and_name.dart';
 import 'package:flutter/cupertino.dart';
@@ -17,7 +18,7 @@ class LogInScreen extends StatefulWidget {
 class _LogInScreenState extends State<LogInScreen> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  bool _isLoading = false;
+
   @override
   Widget build(BuildContext context) {
     return BlocListener<LoginCubit, LoginState>(
@@ -25,12 +26,18 @@ class _LogInScreenState extends State<LogInScreen> {
           if (state is LoginFailed) {
             //_isLoading = false;
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                content: Text(state.error!), backgroundColor: Colors.grey));
+          }
+         else if (state is LoginFailed2) {
+            //_isLoading = false;
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                 content: Text(state.error!), backgroundColor: Colors.red));
-          } else if (state is LoginLoading) {
+          }
+          else if (state is LoginLoading) {
            // _isLoading = true;
-            Scaffold(
-              body: Center(
-                child: CircularProgressIndicator(),
+             Scaffold(
+               body: Center(
+                child: CircularProgressIndicator(color: AppTheme().orangeColor,),
               ),
             );
           } else if (state is LoginSuccess) {

@@ -11,5 +11,8 @@ final class LoginSuccess extends LoginState {
 final class LoginFailed extends LoginState {
   final String? error;
   LoginFailed(this.error);
+}final class LoginFailed2 extends LoginState {
+  final String? error;
+  LoginFailed2(this.error);
 }
 final class LoginLoading extends LoginState {}

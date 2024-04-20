@@ -1,7 +1,11 @@
+import 'package:crispify/cubits/signup_cubit/signup_cubit.dart';
+import 'package:crispify/models/sign_up_model.dart';
+import 'package:crispify/screens/test.dart';
+import 'package:crispify/utils/themes.dart';
 import 'package:crispify/widgets/custom_signup_container_ui.dart';
 import 'package:crispify/widgets/icon_and_name.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -18,44 +22,68 @@ class _SignUpScreenState extends State<SignUpScreen> {
   TextEditingController confirmPasswordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: Stack(
-          children: [
-            SizedBox(
-              width: MediaQuery.of(context).size.width,
-              child: Image.asset(
-                "assets/images/LogIn.jpg",
-                fit: BoxFit.cover,
-              ),
+    return BlocListener<SignupCubit,SignupState>(
+      listener: (context,state){
+        if(state is SignupSuccess){
+          Navigator.of(context).pushAndRemoveUntil(
+              MaterialPageRoute(builder: (_) => Test()), (route) => false);
+        }
+       else if (state is SignupFailed) {
+          //_isLoading = false;
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: Text(state.error!), backgroundColor: Colors.red));
+        } else if (state is SignupLoading) {
+          // _isLoading = true;
+          Scaffold(
+            body: Center(
+              child: CircularProgressIndicator(color: AppTheme().orangeColor,),
             ),
-            SingleChildScrollView(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(
-                    height: 17.h,
-                  ),
-                  const Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                       IconAndNameVertical(),
-                    ],
-                  ),
-                  SizedBox(height: 95.h),
-                  CustomSignUpContainerUi(
-                    onPressed: () {},
-                    buttonActionName: "Create account",
-                    emailController: emailController,
-                    nameController: nameController,
-                    userNameController: userNameController,
-                    passwordController: passwordController,
-                    confirmPasswordController: confirmPasswordController,
-                  )
-                ],
+          );
+        }
+
+      },
+      child: SafeArea(
+        child: Scaffold(
+          body: Stack(
+            children: [
+              SizedBox(
+                width: MediaQuery.of(context).size.width,
+                child: Image.asset(
+                  "assets/images/LogIn.jpg",
+                  fit: BoxFit.cover,
+                ),
               ),
-            )
-          ],
+              SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      height: 17.h,
+                    ),
+                    const Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        IconAndNameVertical(),
+                      ],
+                    ),
+                    SizedBox(height: 95.h),
+                    CustomSignUpContainerUi(
+                      onPressed: () {
+                        final singUpModel=SignUpModel(name: nameController.text, username: userNameController.text, email: emailController.text, password: passwordController.text, confirmPassword: confirmPasswordController.text);
+                        BlocProvider.of<SignupCubit>(context).submitSignup(singUpModel);
+                      },
+                      buttonActionName: "Create account",
+                      emailController: emailController,
+                      nameController: nameController,
+                      userNameController: userNameController,
+                      passwordController: passwordController,
+                      confirmPasswordController: confirmPasswordController,
+                    )
+                  ],
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );

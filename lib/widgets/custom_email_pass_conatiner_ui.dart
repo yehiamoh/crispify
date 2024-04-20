@@ -4,23 +4,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class CustomLogInContainerUi extends StatefulWidget {
+class CustomEmailAndPasswordContainerUi extends StatefulWidget {
   final VoidCallback? onPressed;
   final String? buttonActionName;
-  final TextEditingController? emailController;
-  final TextEditingController? passwordController;
-  const CustomLogInContainerUi(
+  final String? headerText;
+  final bool? isPasswordScreen;
+  final TextEditingController? controller;
+  const CustomEmailAndPasswordContainerUi(
       {super.key,
-      this.onPressed,
-      this.buttonActionName,
-      this.emailController,
-      this.passwordController});
+        this.onPressed,
+        this.buttonActionName,
+        this.controller, this.headerText, this.isPasswordScreen,
+        });
 
   @override
-  State<CustomLogInContainerUi> createState() => _CustomLogInContainerUiState();
+  State<CustomEmailAndPasswordContainerUi> createState() => _CustomEmailAndPasswordContainerUiState();
 }
 
-class _CustomLogInContainerUiState extends State<CustomLogInContainerUi> {
+class _CustomEmailAndPasswordContainerUiState extends State<CustomEmailAndPasswordContainerUi> {
   GlobalKey<FormState> loginFormKey = GlobalKey<FormState>();
 
   @override
@@ -37,7 +38,7 @@ class _CustomLogInContainerUiState extends State<CustomLogInContainerUi> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                "Welcome to Crispify",
+                widget.headerText!,
                 style: GoogleFonts.nunito(
                     textStyle: TextStyle(
                         color: AppTheme().BlackColor,
@@ -47,6 +48,33 @@ class _CustomLogInContainerUiState extends State<CustomLogInContainerUi> {
               SizedBox(
                 height: 78.h,
               ),
+              widget.isPasswordScreen! ? Padding(
+                padding: EdgeInsets.symmetric(horizontal: 45.w),
+                child: TextFormField(
+                  validator: (value){
+                    if(value!.isEmpty){
+                      return "password cannot be empty";
+                    }
+                    if(value!.length<6){
+                      return "Minimum password Length is 6";
+                    }
+                  },
+                  controller: widget.controller,
+                  style:  GoogleFonts.nunito(
+                      textStyle: TextStyle(
+                          color:  AppTheme().BlackColor,
+                          fontSize: 17.sp,
+                          fontWeight: AppTheme().boldFontWeight)),
+                  decoration: InputDecoration(
+                    hintText: "Password",
+                    hintStyle: GoogleFonts.nunito(
+                        textStyle: TextStyle(
+                            color: Color(0xffb2b2b2),
+                            fontWeight: AppTheme().boldFontWeight,
+                            fontSize: 17.sp)),
+                  ),
+                ),
+              ):
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 45.w),
                 child: TextFormField(
@@ -63,7 +91,7 @@ class _CustomLogInContainerUiState extends State<CustomLogInContainerUi> {
                       return "Enter a valid Email";
                     }
                   },
-                  controller: widget.emailController,
+                  controller: widget.controller,
                   decoration: InputDecoration(
                     hintText: "Email",
                     hintStyle: GoogleFonts.nunito(
@@ -77,36 +105,7 @@ class _CustomLogInContainerUiState extends State<CustomLogInContainerUi> {
               SizedBox(
                 height: 41.h,
               ),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 45.w),
-                child: TextFormField(
-                  style:  GoogleFonts.nunito(
-                      textStyle: TextStyle(
-                          color: AppTheme().BlackColor,
-                          fontSize: 17.sp,
-                          fontWeight: AppTheme().boldFontWeight)),
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return "password cannot be empty";
-                    }
-                    if (value.length < 6) {
-                      return "password must be 6 character or more";
-                    }
-                  },
-                  controller: widget.passwordController,
-                  decoration: InputDecoration(
-                    hintText: "password",
-                    hintStyle: GoogleFonts.nunito(
-                        textStyle: TextStyle(
-                            color: const Color(0xffb2b2b2),
-                            fontWeight: AppTheme().boldFontWeight,
-                            fontSize: 17.sp)),
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 80.h,
-              ),
+
               Container(
                 width: 266.w,
                 height: 58.h,
@@ -126,7 +125,7 @@ class _CustomLogInContainerUiState extends State<CustomLogInContainerUi> {
                   },
                   style: ButtonStyle(
                     backgroundColor:
-                        MaterialStateProperty.all(Colors.transparent),
+                    MaterialStateProperty.all(Colors.transparent),
                   ),
                   child: Text(
                     widget.buttonActionName!,
@@ -138,22 +137,6 @@ class _CustomLogInContainerUiState extends State<CustomLogInContainerUi> {
                   ),
                 ),
               ),
-              SizedBox(
-                height: 18.h,
-              ),
-              TextButton(
-                  onPressed: () {
-                    Navigator.of(context).push(MaterialPageRoute(builder: (_)=>EmailVerificationScreen()));
-                  },
-                  child: Text(
-                    "Forgot Password?",
-                    style: GoogleFonts.nunito(
-                        textStyle: TextStyle(
-                      color: const Color(0xff5d5d5d),
-                      fontSize: 12,
-                      fontWeight: AppTheme().normalFontWeight,
-                    )),
-                  ))
             ],
           ),
         ),

@@ -15,18 +15,25 @@ class LoginCubit extends Cubit<LoginState> {
       final response = await dio.post(
           "https://fried-chicken-restaurant-backend-node-js.onrender.com/api/client/login",
           data: logInModel.toJson());
+      final data =response.data;
+      print(data["msg"]);
       if (response.statusCode == 200) {
-        print(response.data["token"]);
-        emit(LoginSuccess(response.data["token"]));
-      } else if (response.statusCode == 404) {
-        print(response.data["msg"]);
-        emit(LoginFailed(response.data["msg"]));
-      } else {
-        // Handle other status codes here
-        emit(LoginFailed("An error occurred"));
+        print("the token is : "+data["token"]);
+        emit(LoginSuccess(data["token"]));
       }
-    } catch (e) {
-      emit(LoginFailed("An error occurred "));
+      else if (response.statusCode == 404) {
+        final message =data["msg"] as String? ??"user not found";
+        print(message);
+        emit(LoginFailed2(message));
+      }
+      else {
+        // Handle unexpected status codes gracefully
+        emit(LoginFailed(
+            "An unexpected error occurred (status code: ${response.statusCode})"));
+      }
+
+    } on DioException catch (e) {
+      emit(LoginFailed("An error occurred"));
     }
   }
 }
