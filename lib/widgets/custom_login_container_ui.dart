@@ -26,7 +26,7 @@ class _CustomLogInContainerUiState extends State<CustomLogInContainerUi> {
   @override
   Widget build(BuildContext context) {
     return Material(
-      borderRadius: BorderRadius.circular(40),
+      borderRadius: BorderRadius.circular(40.w),
       elevation: 35,
       child: SizedBox(
         width: MediaQuery.of(context).size.width * 0.8,
@@ -42,7 +42,7 @@ class _CustomLogInContainerUiState extends State<CustomLogInContainerUi> {
                     textStyle: TextStyle(
                         color: AppTheme().BlackColor,
                         fontWeight: AppTheme().boldFontWeight,
-                        fontSize: 24)),
+                        fontSize: 24.sp)),
               ),
               SizedBox(
                 height: 78.h,

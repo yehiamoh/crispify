@@ -1,6 +1,6 @@
 import 'package:crispify/cubits/login_cubit/login_cubit.dart';
 import 'package:crispify/models/log_in_model.dart';
-import 'package:crispify/screens/test.dart';
+import 'package:crispify/screens/bottom_nav_bar_screen.dart';
 import 'package:crispify/utils/themes.dart';
 import 'package:crispify/widgets/custom_login_container_ui.dart';
 import 'package:crispify/widgets/icon_and_name.dart';
@@ -31,7 +31,7 @@ class _LogInScreenState extends State<LogInScreen> {
           } else if (state is LoginSuccess) {
             // _isLoading = false;
             Navigator.of(context).pushAndRemoveUntil(
-                MaterialPageRoute(builder: (_) => Test()), (route) => false);
+                MaterialPageRoute(builder: (_) => BottomNavBarScreen()), (route) => false);
           }
         },
         child: SafeArea(
