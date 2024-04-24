@@ -3,6 +3,7 @@ import 'package:crispify/cubits/email_OTP/email_otp_cubit.dart';
 import 'package:crispify/cubits/login_cubit/login_cubit.dart';
 import 'package:crispify/cubits/reset_password/reset_password_cubit.dart';
 import 'package:crispify/cubits/signup_cubit/signup_cubit.dart';
+import 'package:crispify/cubits/user_data/user_data_cubit.dart';
 import 'package:crispify/screens/welcome_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -26,6 +27,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context)=>EmailOtpCubit()),
         BlocProvider(create: (context)=>OtpCubit()),
         BlocProvider(create: (context)=>ResetPasswordCubit()),
+        BlocProvider(create: (context)=>UserDataCubit()),
       ],
       child: ScreenUtilInit(
         designSize: const Size(390, 844),

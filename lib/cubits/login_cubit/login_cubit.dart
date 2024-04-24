@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:crispify/models/log_in_model.dart';
+import 'package:crispify/service/shares_prefrence_services.dart';
 import 'package:dio/dio.dart';
 import 'package:meta/meta.dart';
 
@@ -18,8 +19,9 @@ class LoginCubit extends Cubit<LoginState> {
       final data =response.data;
       print(data["msg"]);
       if (response.statusCode == 200) {
-        print("the token is : "+data["token"]);
-        emit(LoginSuccess(data["token"]));
+        final token = response.data['token']; // Replace with your token path
+        await SharedPrefService.storeToken(token);
+        emit(LoginSuccess(token));
       }
       else {
         // Handle unexpected status codes gracefully

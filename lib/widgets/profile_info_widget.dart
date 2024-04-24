@@ -35,7 +35,7 @@ class _ProfileInfoWidgetState extends State<ProfileInfoWidget> {
                     textStyle:TextStyle(
                         color: Colors.black,
                         fontWeight: AppTheme().boldFontWeight,
-                        fontSize: 16.sp),
+                        fontSize: 13.sp),
                     ),
                   ),
                   ChangeButtonWidget(),
@@ -51,7 +51,7 @@ class _ProfileInfoWidgetState extends State<ProfileInfoWidget> {
                     textStyle:TextStyle(
                         color: Colors.black,
                         fontWeight: AppTheme().boldFontWeight,
-                        fontSize: 16.sp),
+                        fontSize: 13.sp),
                     ),
                   ),
                   ChangeButtonWidget(),
@@ -67,8 +67,10 @@ class _ProfileInfoWidgetState extends State<ProfileInfoWidget> {
                     textStyle:TextStyle(
                         color: Colors.black,
                         fontWeight: AppTheme().boldFontWeight,
-                        fontSize: 16.sp),
+                        fontSize: 13.sp),
                     ),
+                    overflow: TextOverflow.visible,
+                    maxLines: 1,
                   ),
                   ChangeButtonWidget(),
                 ],

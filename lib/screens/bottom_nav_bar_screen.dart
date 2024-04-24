@@ -47,7 +47,7 @@ class _BottomNavBarScreenState extends State<BottomNavBarScreen> {
               label: "History"
           ), BottomNavigationBarItem(
             icon: Icon(Icons.person,size: 24.sp,),
-            label: "Person",
+            label: "Profile",
           ),
       ],
       ),
