@@ -19,17 +19,16 @@ class _LogInScreenState extends State<LogInScreen> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
+
   @override
   Widget build(BuildContext context) {
     return BlocListener<LoginCubit, LoginState>(
         listener: (context, state) {
           if (state is LoginFailed) {
-            //_isLoading = false;
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                 content: Text(state.error!), backgroundColor: Colors.red));
 
           } else if (state is LoginSuccess) {
-            // _isLoading = false;
             Navigator.of(context).pushAndRemoveUntil(
                 MaterialPageRoute(builder: (_) => BottomNavBarScreen()), (route) => false);
           }
@@ -62,7 +61,6 @@ class _LogInScreenState extends State<LogInScreen> {
                       BlocBuilder<LoginCubit, LoginState>(
                           builder: (context, state) {
                         if (state is LoginLoading) {
-                          // _isLoading = true;
                             return Center(
                               child: CircularProgressIndicator(
                                 color: AppTheme().orangeColor,

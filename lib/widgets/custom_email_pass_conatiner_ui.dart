@@ -23,6 +23,7 @@ class CustomEmailAndPasswordContainerUi extends StatefulWidget {
 
 class _CustomEmailAndPasswordContainerUiState extends State<CustomEmailAndPasswordContainerUi> {
   GlobalKey<FormState> loginFormKey = GlobalKey<FormState>();
+   bool isObscure=true;
 
   @override
   Widget build(BuildContext context) {
@@ -60,12 +61,23 @@ class _CustomEmailAndPasswordContainerUiState extends State<CustomEmailAndPasswo
                     }
                   },
                   controller: widget.controller,
+                  obscureText: isObscure,
                   style:  GoogleFonts.nunito(
                       textStyle: TextStyle(
                           color:  AppTheme().BlackColor,
                           fontSize: 17.sp,
                           fontWeight: AppTheme().boldFontWeight)),
-                  decoration: InputDecoration(
+                               decoration: InputDecoration(
+                    suffixIcon: IconButton(
+                      icon: isObscure
+                          ? Icon(Icons.visibility_off,color:AppTheme().BlackColor,size: 20.sp,)
+                          : Icon(Icons.visibility,color:AppTheme().BlackColor,size: 20.sp,),
+                      onPressed: () {
+                        setState(() {
+                          isObscure = !isObscure;
+                        });
+                      },
+                    ),
                     hintText: "Password",
                     hintStyle: GoogleFonts.nunito(
                         textStyle: TextStyle(

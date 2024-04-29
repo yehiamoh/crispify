@@ -22,6 +22,7 @@ class CustomLogInContainerUi extends StatefulWidget {
 
 class _CustomLogInContainerUiState extends State<CustomLogInContainerUi> {
   GlobalKey<FormState> loginFormKey = GlobalKey<FormState>();
+  bool isObscure=true;
 
   @override
   Widget build(BuildContext context) {
@@ -80,6 +81,7 @@ class _CustomLogInContainerUiState extends State<CustomLogInContainerUi> {
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 45.w),
                 child: TextFormField(
+                  obscureText: isObscure,
                   style:  GoogleFonts.nunito(
                       textStyle: TextStyle(
                           color: AppTheme().BlackColor,
@@ -95,6 +97,16 @@ class _CustomLogInContainerUiState extends State<CustomLogInContainerUi> {
                   },
                   controller: widget.passwordController,
                   decoration: InputDecoration(
+                    suffixIcon: IconButton(
+                      icon: isObscure
+                          ? Icon(Icons.visibility_off,color:AppTheme().BlackColor,size: 20.sp,)
+                          : Icon(Icons.visibility,color:AppTheme().BlackColor,size: 20.sp,),
+                      onPressed: () {
+                        setState(() {
+                          isObscure = !isObscure;
+                        });
+                      },
+                    ),
                     hintText: "password",
                     hintStyle: GoogleFonts.nunito(
                         textStyle: TextStyle(

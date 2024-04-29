@@ -26,6 +26,7 @@ class CustomSignUpContainerUi extends StatefulWidget {
 }
 class _CustomSignUpContainerUiState extends State<CustomSignUpContainerUi> {
   GlobalKey<FormState> signUpFromKey = GlobalKey<FormState>();
+  bool isObscure=true;
   @override
   Widget build(BuildContext context) {
     return Material(
@@ -136,6 +137,7 @@ class _CustomSignUpContainerUiState extends State<CustomSignUpContainerUi> {
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 45.w),
                 child: TextFormField(
+                  obscureText: isObscure,
                   validator: (value){
                     if(value!.isEmpty){
                       return "password cannot be empty";
@@ -151,6 +153,16 @@ class _CustomSignUpContainerUiState extends State<CustomSignUpContainerUi> {
                           fontSize: 17.sp,
                           fontWeight: AppTheme().boldFontWeight)),
                   decoration: InputDecoration(
+                    suffixIcon: IconButton(
+                      icon: isObscure
+                          ?  Icon(Icons.visibility_off,color:AppTheme().BlackColor,size: 20.sp,)
+                          :  Icon(Icons.visibility,color:AppTheme().BlackColor,size: 20.sp,),
+                      onPressed: () {
+                        setState(() {
+                          isObscure = !isObscure;
+                        });
+                      },
+                    ),
                     hintText: "Password",
                     hintStyle: GoogleFonts.nunito(
                         textStyle: TextStyle(

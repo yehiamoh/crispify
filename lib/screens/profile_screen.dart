@@ -21,7 +21,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     BlocProvider.of<UserDataCubit>(context)
         .getProfile(); // Trigger data fetching on initialization
   }
-
+  @override
   Widget build(BuildContext context) {
     return BlocBuilder<UserDataCubit, UserDataState>(
       builder: (context, state) {

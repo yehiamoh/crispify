@@ -1,6 +1,7 @@
 import 'package:crispify/cubits/signup_cubit/signup_cubit.dart';
 import 'package:crispify/models/sign_up_model.dart';
 import 'package:crispify/screens/bottom_nav_bar_screen.dart';
+import 'package:crispify/screens/log_in_screen.dart';
 import 'package:crispify/utils/themes.dart';
 import 'package:crispify/widgets/custom_signup_container_ui.dart';
 import 'package:crispify/widgets/icon_and_name.dart';
@@ -26,7 +27,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       listener: (context,state){
         if(state is SignupSuccess){
           Navigator.of(context).pushAndRemoveUntil(
-              MaterialPageRoute(builder: (_) => BottomNavBarScreen()), (route) => false);
+              MaterialPageRoute(builder: (_) => const LogInScreen()), (route) => false);
         }
        else if (state is SignupFailed) {
           //_isLoading = false;
